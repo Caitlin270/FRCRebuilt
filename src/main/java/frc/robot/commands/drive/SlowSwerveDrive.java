@@ -6,16 +6,14 @@ package frc.robot.commands.drive;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Rotation2d;
-import frc.robot.OI;
-import frc.robot.Constants.OIConstants;
+import frc.robot.Constants;
 import frc.robot.subsystems.Drive;
 import frc.robot.testingdashboard.Command;
 import frc.robot.testingdashboard.TDNumber;
 import frc.robot.testingdashboard.TDSendable;
 import frc.robot.utils.SwerveDriveInputs;
 
-public class SwerveDrive extends Command {
+public class SlowSwerveDrive extends Command {
   private SwerveDriveInputs m_DriveInputs;
   private PIDController m_headingController;
   private TDNumber m_TDheading;
@@ -27,7 +25,7 @@ public class SwerveDrive extends Command {
   Drive m_drive;
 
   /** Creates a new SwerveDrive. */
-  public SwerveDrive(SwerveDriveInputs driveInputs) {
+  public SlowSwerveDrive(SwerveDriveInputs driveInputs) {
     super(Drive.getInstance(), "Basic", "SwerveDrive");
     m_drive = Drive.getInstance();
     m_DriveInputs = driveInputs;
@@ -49,22 +47,7 @@ public class SwerveDrive extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double rotationPower = 0.0;
-    if (OI.getInstance().getDriverController().getRightBumperButton()) {
-      rotationPower = getRotationFromTransalation();
-    }
-    else {
-      rotationPower = getRotationFromOperator();
-    }
-    m_drive.drive(
-      -MathUtil.applyDeadband(m_DriveInputs.getX(), OIConstants.kDriveDeadband),
-      -MathUtil.applyDeadband(m_DriveInputs.getY(), OIConstants.kDriveDeadband),
-      rotationPower,
-      true, false);
-  }
-
-  private double getRotationFromOperator() {
-    var rotationPower = -MathUtil.applyDeadband(m_DriveInputs.getRotation(), OIConstants.kDriveDeadband);
+    var rotationPower = -MathUtil.applyDeadband(m_DriveInputs.getRotation(), Constants.OIConstants.kDriveDeadband);
     if (rotationPower == 0) {
       if (m_operatorRotating &&
           MathUtil.isNear(0, m_drive.getMeasuredSpeeds().omegaRadiansPerSecond, kHeadingTolerance)) {
@@ -78,15 +61,11 @@ public class SwerveDrive extends Command {
     else {
       m_operatorRotating = true;
     }
-    return rotationPower;
-  }
-
-  private double getRotationFromTransalation() {
-    double x = -MathUtil.applyDeadband(m_DriveInputs.getX(), OIConstants.kDriveDeadband);
-    double y = -MathUtil.applyDeadband(m_DriveInputs.getY(), OIConstants.kDriveDeadband);
-    Rotation2d heading = new Rotation2d(x, y);
-    double currentHeading = m_drive.getHeading();
-    return m_headingController.calculate(currentHeading, heading.getDegrees());
+    m_drive.drive(
+      -MathUtil.applyDeadband(m_DriveInputs.getX(), Constants.OIConstants.kDriveDeadband) * Constants.DriveConstants.kSlowDrive,
+      -MathUtil.applyDeadband(m_DriveInputs.getY(), Constants.OIConstants.kDriveDeadband) * Constants.DriveConstants.kSlowDrive,
+      rotationPower * Constants.DriveConstants.kSlowDrive,
+      true, false);
   }
 
   // Called once the command ends or is interrupted.
