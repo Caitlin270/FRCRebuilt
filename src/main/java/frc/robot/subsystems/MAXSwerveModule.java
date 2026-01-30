@@ -113,6 +113,14 @@ public class MAXSwerveModule {
     m_chassisAngularOffset = chassisAngularOffset;
     m_desiredState.angle = new Rotation2d(m_turningEncoder.getPosition());
     m_drivingEncoder.setPosition(0);
+
+    System.out.println("driving P: " + SwerveModuleConstants.kDrivingP +
+                             ", I: " + SwerveModuleConstants.kDrivingI +
+                             ", D: " + SwerveModuleConstants.kDrivingD);
+
+    System.out.println("turning P: " + SwerveModuleConstants.kTurningP +
+                             ", I: " + SwerveModuleConstants.kTurningI +
+                             ", D: " + SwerveModuleConstants.kTurningD);
   }
   
   /**

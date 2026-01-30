@@ -1,6 +1,5 @@
 package frc.robot;
 
-import java.io.FilenameFilter;
 
 import com.pathplanner.lib.config.PIDConstants;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
@@ -49,7 +48,7 @@ public final class Constants {
         public static final double kDrivingMinOutput = -1;
         public static final double kDrivingMaxOutput = 1;
 
-        public static final double kTurningP = 1;
+        public static final double kTurningP = Configuration.getInstance().getDouble("Drive", "kTurningP");
         public static final double kTurningI = 0;
         public static final double kTurningD = 0;
         public static final double kTurningFF = 0;

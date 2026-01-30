@@ -40,10 +40,10 @@ public class OI {
     }
 
     public void bindControls() {
-        new JoystickButton(m_operatorXboxController, Button.kX.value).whileTrue(Drive.getInstance().sysIdQuasistatic(Direction.kForward));
-        new JoystickButton(m_operatorXboxController, Button.kA.value).whileTrue(Drive.getInstance().sysIdQuasistatic(Direction.kReverse));
-        new JoystickButton(m_operatorXboxController, Button.kY.value).whileTrue(Drive.getInstance().sysIdDynamic(Direction.kForward));
-        new JoystickButton(m_operatorXboxController, Button.kB.value).whileTrue(Drive.getInstance().sysIdDynamic(Direction.kReverse));
+        new JoystickButton(m_driverXboxController, Button.kX.value).whileTrue(Drive.getInstance().sysIdQuasistatic(Direction.kForward));
+        new JoystickButton(m_driverXboxController, Button.kA.value).whileTrue(Drive.getInstance().sysIdQuasistatic(Direction.kReverse));
+        new JoystickButton(m_driverXboxController, Button.kY.value).whileTrue(Drive.getInstance().sysIdDynamic(Direction.kForward));
+        new JoystickButton(m_driverXboxController, Button.kB.value).whileTrue(Drive.getInstance().sysIdDynamic(Direction.kReverse));
     }
 
     public XboxController getDriverController() {
